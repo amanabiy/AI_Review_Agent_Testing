@@ -4,7 +4,7 @@ class User:
     def __init__(self, name, email, password):
         self.name = name
         self.email = email
-        self.password = password
+        self.p = password
         self.data = {}
         self.data_hash = lambda x: hash(x)
         self.data[self.data_hash(name)] = {"name": name, "email": email, "password": password}
