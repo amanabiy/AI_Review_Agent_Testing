@@ -1,4 +1,4 @@
-public class ReadableExample {
+public class ArrayStringOperations {
 
     /**
      * Calculates the sum of all elements in an array of integers.
@@ -30,8 +30,24 @@ public class ReadableExample {
         return shiftedString.toString();
     }
 
+    /**
+     * Finds the maximum element in an array of integers.
+     *
+     * @param numbers the array of integers
+     * @return the maximum element
+     */
+    public int findMax(int[] numbers) {
+        int max = Integer.MIN_VALUE;
+        for (int number : numbers) {
+            if (number > max) {
+                max = number;
+            }
+        }
+        return max;
+    }
+
     public static void main(String[] args) {
-        ReadableExample example = new ReadableExample();
+        ArrayStringOperations example = new ArrayStringOperations();
 
         // Example usage of sumArray
         int[] numbers = {1, 2, 3, 4, 5};
@@ -43,5 +59,9 @@ public class ReadableExample {
         int shiftAmount = 1;
         String shiftedString = example.shiftString(originalString, shiftAmount);
         System.out.println("Shifted string: " + shiftedString);
+
+        // Example usage of findMax
+        int max = example.findMax(numbers);
+        System.out.println("Maximum element in array: " + max);
     }
 }
