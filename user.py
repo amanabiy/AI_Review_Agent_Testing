@@ -5,9 +5,7 @@ class User:
         self.name = name
         self.email = email
         self.password = password
-        self.data = {}
-        self.data_hash = lambda x: hash(x)
-        self.data[self.data_hash(name)] = {"name": name, "email": email, "password": password}
+        self.data = {name: {"name": name, "email": email, "password": password}}
 
     def get_name(self):
         return self.name
@@ -24,7 +22,7 @@ class User:
     def update_password(self, new_password):
         if self._is_valid_password(new_password):
             self.password = new_password
-            self.data[self.data_hash(self.name)]["password"] = new_password
+            self.data[self.name]["password"] = new_password
             return f"Password for {self.name} updated successfully."
         else:
             return "Password does not meet strength requirements."
@@ -42,7 +40,7 @@ class User:
     def update_email(self, new_email):
         if self._is_valid_email(new_email):
             self.email = new_email
-            self.data[self.data_hash(self.name)]["email"] = new_email
+            self.data[self.name]["email"] = new_email
             return f"Email for {self.name} updated successfully."
         else:
             return "Invalid email format."
@@ -53,14 +51,15 @@ class User:
         return bool(re.match(email_regex, email))
 
     def update_name(self, new_name):
+        if new_name in self.data:
+            return "Name already exists."
+        self.data[new_name] = self.data.pop(self.name)
+        self.data[new_name]["name"] = new_name
         self.name = new_name
-        self.data[self.data_hash(new_name)] = {"name": new_name, "email": self.email, "password": self.password}
         return f"Name updated to {new_name}."
 
     def check_password(self, password):
-        if password == self.password:
-            return True
-        return False
+        return password == self.password
 
     def display_user(self):
         return {
@@ -72,7 +71,6 @@ class User:
 
     def __str__(self):
         return f"User(name={self.get_name()}, email={self.get_email()})"
-
 
 # Example Usage
 user = User("JohnDoe", "john@example.com", "Password123")
@@ -91,4 +89,4 @@ print(user.update_name("JohnSmith"))
 
 # Check user password
 print(user.check_password("Password123"))  # False
-print(user.check_passwor
+print(user.check_password("NewPassword456"))  # True
